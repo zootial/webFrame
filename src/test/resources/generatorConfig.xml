@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+  <context id="context1">
+  	<plugin type="org.mybatis.generator.plugins.ToStringPlugin"></plugin>
+	<plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
+	<plugin type="com.jonly.frame.util.dev.MyBatisGeneratorPlugin">
+		<property name="sqlParamClass" value="com.changx.peps.domain.dto.CondParamDto"/>
+		<property name="sqlParamAlias" value="o"/>
+	</plugin>
+	
+	<commentGenerator>
+  		<property name="suppressAllComments" value="true"/>
+  	</commentGenerator>
+  	
+    <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=utf-8" 
+    	driverClass="com.mysql.jdbc.Driver" password="test" userId="test" />
+    <javaModelGenerator targetPackage="com.jonly.test.model" targetProject="webframe\src\test\java">
+    	<property name="rootClass" value="com.jonly.frame.model.BaseModel"></property>
+    </javaModelGenerator>
+    <sqlMapGenerator targetPackage="mybatis" targetProject="webframe\src\test\resources" />
+    <javaClientGenerator targetPackage="com.jonly.test.dao.mapper" targetProject="webframe\src\test\java" type="XMLMAPPER">
+    </javaClientGenerator>
+    
+    <table schema="test" tableName="test" domainObjectName=""
+    	enableInsert="true" enableDeleteByPrimaryKey="true" enableUpdateByPrimaryKey="true" enableSelectByPrimaryKey="true"
+    	enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true">
+      <generatedKey column="ID" sqlStatement="select SEQ_TEST.nextval from dual" type="pre" />
+      <!-- <columnOverride column="ADDTIME" jdbcType="TIMESTAMP" />
+      <columnOverride column="EVLAUATEDATE" jdbcType="TIMESTAMP" />
+      <columnOverride column="UPDATETIME" jdbcType="TIMESTAMP" /> -->
+    </table>
+  </context>
+</generatorConfiguration>
