@@ -9,8 +9,16 @@
 package com.jonly.test;
 
 import java.nio.charset.Charset;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
+import com.alibaba.druid.sql.visitor.functions.Char;
 import com.jonly.frame.dao.Cond;
 import com.jonly.frame.dao.Cond.Or;
 import com.jonly.frame.dao.Op;
@@ -33,9 +41,9 @@ import com.jonly.frame.dao.Op;
  */
 public class Test {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 //        test2();
-        test();
+        test3();
 //        System.out.println(((ParameterizedType)TestMapper.class.getGenericInterfaces()[0]).getActualTypeArguments()[0]);
 //        System.out.println(((ParameterizedType) TestMapper.class.getGenericSuperclass())
 //                .getActualTypeArguments()[0]);
@@ -49,6 +57,82 @@ public class Test {
                 .or(Op.eq("f6", 6));
         System.out.println(where);
         System.out.println(Arrays.toString(where.values()));
+    }
+    
+    public static String genAppointCode(Date orderDate, Long userId, Integer seq) {
+        StringBuilder no = new StringBuilder("1");
+        NumberFormat NF = new DecimalFormat("00000");
+        String userIdStr = NF.format(userId);
+        for(int i = userIdStr.length(); i > userIdStr.length() - 5; i--) {
+            no.append(userIdStr.charAt(i - 1));
+        }
+        String time = String.valueOf(orderDate.getTime());
+        if(time.length() > 4) {
+            time = time.substring(4);
+        }
+        int limit = 4;
+        int rand = (int) (Math.random() * 10) % 2;
+        for(int i = 0; i < time.length(); i++) {
+            if(i % 2 == rand) {
+                if(limit-- < 1) {
+                    break;
+                }
+                no.append(time.charAt(i));
+            }
+        }
+        return encode(Long.parseLong(no.toString()) + seq + Calendar.getInstance().get(Calendar.YEAR));
+    }
+    
+    static void test3() throws InterruptedException {
+        System.out.println(decode("ZZZZZZ"));
+        int count = 0;
+        String str1 = "";
+        for(int j = 0; j < 1000000; j++) {
+            List<String> list = new ArrayList<String>();
+        for(int i = 0; i < 10; i++) {
+            String str2 = genAppointCode(new Date(), 10L, i + 1);
+            if(list.contains(str2)) {
+                System.out.println(str2);
+                count++;
+            }
+            list.add(str2);
+        }
+        }
+        System.out.println(count);
+    }
+    
+    private final static char[] E = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E',
+            'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+    
+    public static String encode(long value) {
+        int idx = 0;
+        int radix = E.length;
+        char[] charArr = new char[11];
+        for (idx = 1; idx <= radix; idx++){
+            charArr[charArr.length - idx] = E[(int)(value % radix)];
+            value /= radix;
+            if (value == 0) { break; }
+        }
+        return new String(charArr, charArr.length - idx, idx);
+    }
+    
+    public static long decode(String value) {
+        int fromBase = E.length;
+        String v = null;
+        if(value == null || (v = value.trim()) == ""){
+            throw new IllegalArgumentException(value);
+        }
+        long result = 0;
+        for (int i = 0; i < v.length(); i++){
+            char vi = v.charAt(v.length() - i - 1);
+            int idx = Arrays.binarySearch(E, 0, E.length, vi);
+            if(idx < 0){
+                throw new IllegalArgumentException(String.format("The char \"%s\" is invalid", vi));
+            }
+            result += (long)Math.pow(fromBase, i) * idx;
+        }
+        
+        return result;
     }
     
     void test1() {

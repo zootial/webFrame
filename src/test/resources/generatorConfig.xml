@@ -5,7 +5,7 @@
   	<plugin type="org.mybatis.generator.plugins.ToStringPlugin"></plugin>
 	<plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
 	<plugin type="com.jonly.frame.util.dev.MyBatisGeneratorPlugin">
-		<property name="sqlParamClass" value="com.changx.peps.domain.dto.CondParamDto"/>
+		<property name="sqlParamClass" value="com.test.domain.dto.CondParamDto"/>
 		<property name="sqlParamAlias" value="o"/>
 	</plugin>
 	
@@ -22,7 +22,7 @@
     <javaClientGenerator targetPackage="com.jonly.test.dao.mapper" targetProject="webframe\src\test\java" type="XMLMAPPER">
     </javaClientGenerator>
     
-    <table schema="test" tableName="test" domainObjectName=""
+    <table schema="test" tableName="test" domainObjectName="" alias=""
     	enableInsert="true" enableDeleteByPrimaryKey="true" enableUpdateByPrimaryKey="true" enableSelectByPrimaryKey="true"
     	enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true">
       <generatedKey column="ID" sqlStatement="select SEQ_TEST.nextval from dual" type="pre" />

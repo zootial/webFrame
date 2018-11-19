@@ -155,7 +155,11 @@ public class MyBatisGeneratorPlugin extends PluginAdapter {
 
             sb.setLength(0);
             sb.append(" and ");
-            sb.append(MyBatis3FormattingUtilities.getAliasedEscapedColumnName(introspectedColumn));
+            if(appendPrefix) {
+                sb.append(MyBatis3FormattingUtilities.getAliasedEscapedColumnName(introspectedColumn));
+            } else {
+                sb.append(MyBatis3FormattingUtilities.getEscapedColumnName(introspectedColumn));
+            }
             sb.append(" = ");
             sb.append(MyBatis3FormattingUtilities.getParameterClause(introspectedColumn, prefix));
 
