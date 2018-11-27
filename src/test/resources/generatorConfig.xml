@@ -2,9 +2,12 @@
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
   <context id="context1">
+	<property name="autoDelimitKeywords" value="true" />
+	<property name="beginningDelimiter" value="`" />
+	<property name="endingDelimiter" value="`" />
   	<plugin type="org.mybatis.generator.plugins.ToStringPlugin"></plugin>
 	<plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
-	<plugin type="com.jonly.frame.util.dev.MyBatisGeneratorPlugin">
+	<plugin type="com.jonly.test.dev.MyBatisGeneratorPlugin">
 		<property name="sqlParamClass" value="com.test.domain.dto.CondParamDto"/>
 		<property name="sqlParamAlias" value="o"/>
 	</plugin>
@@ -29,6 +32,7 @@
       <!-- <columnOverride column="ADDTIME" jdbcType="TIMESTAMP" />
       <columnOverride column="EVLAUATEDATE" jdbcType="TIMESTAMP" />
       <columnOverride column="UPDATETIME" jdbcType="TIMESTAMP" /> -->
+      <!-- <columnRenamingRule searchString="^T" replaceString=""/> -->
     </table>
   </context>
 </generatorConfiguration>
